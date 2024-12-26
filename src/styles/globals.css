@@ -24,7 +24,7 @@ table {
   width: 100%;
   border-collapse: collapse;
 }
-th, td {
+th, td, button {
   color: #505050;
   font-weight: normal;
   border: 1px solid #999;
@@ -33,11 +33,3 @@ th, td {
   margin: 0;
 }
 
-button {
-   color: #505050;
-  font-weight: normal;
-  border: 1px solid #999;
-  background: white;
-  padding: 0; 
-  margin: 0;
-}

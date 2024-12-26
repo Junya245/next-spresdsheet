@@ -1,6 +1,6 @@
 import Cell from "./Cell";
 import { CellContent } from "@/types/spreadsheet";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Spreadsheet() {
   const [cellContents, setCellContents] = useState<Array<Array<CellContent>>>([
@@ -8,6 +8,28 @@ export default function Spreadsheet() {
     ["", "", ""],
     ["", "", ""],
   ]);
+
+ const persist = () => {
+   fetch("/api/cells", {
+     method: "POST",
+     headers: { "Content-type": "application/json" },
+     body: JSON.stringify({ cells: cellContents }),
+   });
+ };
+
+    useEffect(() => {
+      fetch("/api/cells").then((res) =>
+        res.text().then((s) => {
+          const data = JSON.parse(s);
+          if (data.cells) {
+            setCellContents(data.cells);
+          }
+        })
+      );
+    }, []);
+
+   
+
   return (
     <>
       <table>
@@ -51,6 +73,7 @@ export default function Spreadsheet() {
         - row
       </button>
       <br />
+      <button onClick={persist}>Save</button>
       <button
         onClick={() => setCellContents(cellContents.map((row) => [...row, ""]))}
       >
